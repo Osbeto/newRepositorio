@@ -1,0 +1,80 @@
+package com.example.oscar.practica3;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText num;
+    Button conv, dec;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        num = (EditText)findViewById(R.id.Texnum);
+        conv = (Button)findViewById(R.id.btnConvertir);
+        dec = (Button)findViewById(R.id.btnDecimal);
+
+
+
+        conv.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                int aux = Integer.parseInt(num.getText().toString());
+                String binario = "";
+
+                while (aux > 0) {
+                    binario = aux % 2 + binario;
+                    aux /= 2;
+                }
+                Intent i = new Intent(MainActivity.this, NewPantalla.class);
+                i.putExtra("numero", binario);
+                startActivity(i);
+
+            }
+
+            });
+        dec.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numbi = num.getText().toString();
+                int longi = numbi.length();
+                int result = 0;
+                int pot = longi -1;
+                for(int i=0; i< longi; i++ ){
+                    if(numbi.charAt(i) == '1'){
+                        result += Math.pow(2, pot);
+                    }
+                    pot --;
+                }
+                Intent i = new Intent(MainActivity.this, NewPantalla.class);
+                i.putExtra("decimal", result);
+                startActivity(i);
+            }
+        });
